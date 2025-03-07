@@ -1,25 +1,16 @@
 import './App.css'
 import Guest from "./components/Guest";
 import Profile from "./components/Profile";
-import {Route, Routes, useNavigate} from "react-router";
-import {useEffect} from "react";
+import {Navigate, Route, Routes} from "react-router";
+import {useAppSelector} from "./app/hooks.ts";
 
 function App() {
-    const navigate = useNavigate();
-    const token = '';
-
-    useEffect(() => {
-        if (token) {
-            navigate('/profile');
-        } else {
-            navigate('/');
-        }
-    }, [token, navigate]);
+    const token = useAppSelector(state => state.token);
 
     return (
         <Routes>
-            <Route path="/" element={<Guest />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/" element={token ? <Navigate to={'/profile'}/> : <Guest/>}/>
+            <Route path="/profile" element={token ? <Profile/> : <Navigate to={'/'}/>}/>
         </Routes>
     );
 }
