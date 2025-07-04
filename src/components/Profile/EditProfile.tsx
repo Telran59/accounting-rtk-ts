@@ -8,10 +8,11 @@ interface Props {
 const EditProfile = ({close}: Props) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [login, setLogin] = useState('');
     const [updateUser] = useUpdateUserMutation();
 
     const handleClickSave = () => {
-        updateUser({firstName, lastName});
+        updateUser({user: {firstName, lastName}, login});
         close();
     }
 
@@ -22,6 +23,13 @@ const EditProfile = ({close}: Props) => {
 
     return (
         <>
+            <label>Login:
+                <input
+                    type="text"
+                    value={login}
+                    onChange={(e) => setLogin(e.target.value)}
+                />
+            </label>
             <label>First name:
                 <input
                     type="text"
